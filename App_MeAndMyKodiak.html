@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Télécharger l'app</title>
+</head>
+<body>
+<script>
+
+  const ua = navigator.userAgent || navigator.vendor;
+ 
+  if (/android/i.test(ua)) {
+
+    window.location.href = "https://play.google.com/store/apps/details?id=com.daher.meandmykodiak&hl=fr";
+
+  } else if (/iPad|iPhone|iPod/.test(ua)) {
+
+    window.location.href = "https://apps.apple.com/fr/app/me-mykodiak/id6740996897";
+
+  } else {
+
+    // Desktop : afficher les deux liens
+
+    document.body.innerHTML = `
+<p><a href="https://play.google.com/store/apps/details?id=com.daher.meandmykodiak&hl=fr">Android</a></p>
+<p><a href="https://apps.apple.com/fr/app/me-mykodiak/id6740996897">iOS</a></p>
+
+    `;
+
+  }
+</script>
+</body>
+</html>
+ 
