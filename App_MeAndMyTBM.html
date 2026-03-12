@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Télécharger l'app</title>
+</head>
+<body>
+<script>
+
+  const ua = navigator.userAgent || navigator.vendor;
+ 
+  if (/android/i.test(ua)) {
+
+    window.location.href = "https://play.google.com/store/apps/details?id=com.daher.meandmytbm&hl=fr&pli=1";
+
+  } else if (/iPad|iPhone|iPod/.test(ua)) {
+
+    window.location.href = "https://apps.apple.com/app/id1321941711";
+
+  } else {
+
+    // Desktop : afficher les deux liens
+
+    document.body.innerHTML = `
+<p><a href="https://play.google.com/store/apps/details?id=com.daher.meandmytbm&hl=fr&pli=1">Android</a></p>
+<p><a href="https://apps.apple.com/fr/app/me-mytbm/id1321941711">iOS</a></p>
+
+    `;
+
+  }
+</script>
+</body>
+</html>
+ 
