@@ -1,25 +1,363 @@
 <!DOCTYPE html>
-<html lang='fr'>
+<html lang="en">
 <head>
-    <meta charset='UTF-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>Daher Mini-Linktree</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daher Aircraft — TBM & Kodiak</title>
+    <meta name="description" content="Discover the Daher aircraft family — the TBM very fast turboprop and the Kodiak rugged utility aircraft.">
     <style>
-        body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; padding: 0; text-align: center; }
-        .container { max-width: 600px; margin: 40px auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        h1 { color: #005bbb; }
-        .link { display: block; background: #005bbb; color: white; padding: 15px; margin: 10px 0; border-radius: 5px; text-decoration: none; font-size: 18px; transition: 0.3s; }
-        .link:hover { background: #003f7f; }
+        /* Fonts */
+        @font-face {
+            font-family: 'Knockout';
+            src: url('fonts/Knockout/Knockout-HTF51-Middleweight.otf') format('opentype');
+            font-weight: 500;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Knockout';
+            src: url('fonts/Knockout/Knockout-HTF31-JuniorMiddlewt.otf') format('opentype');
+            font-weight: 400;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Forza';
+            src: url('fonts/Forza/Forza-Medium.woff') format('woff'),
+                 url('fonts/Forza/Forza-Medium.ttf') format('truetype');
+            font-weight: 500;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Forza';
+            src: url('fonts/Forza/Forza-Book.woff') format('woff'),
+                 url('fonts/Forza/Forza-Book.ttf') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Forza';
+            src: url('fonts/Forza/Forza-Light.woff') format('woff'),
+                 url('fonts/Forza/Forza-Light.ttf') format('truetype');
+            font-weight: 300;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Forza';
+            src: url('fonts/Forza/Forza-Black.woff') format('woff'),
+                 url('fonts/Forza/Forza-Black.ttf') format('truetype');
+            font-weight: 900;
+            font-style: normal;
+        }
+
+        /* Reset & Base */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --red: #E60032;
+            --red-soft: #ff4d6d;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Forza', Arial, sans-serif;
+            background: radial-gradient(circle at 50% 0%, #1c1c1c 0%, #0a0a0a 55%);
+            color: #ffffff;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        /* Layout */
+        .wrap {
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        /* Brand header */
+        .logo {
+            display: block;
+            width: 220px;
+            max-width: 65%;
+            height: auto;
+            margin: 0 auto 14px;
+        }
+
+        .brand-sub {
+            font-family: 'Forza', Arial, sans-serif;
+            font-weight: 500;
+            font-size: 12px;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.55);
+        }
+
+        .divider {
+            width: 56px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--red), var(--red-soft));
+            margin: 22px auto 14px;
+            border-radius: 3px;
+        }
+
+        .tagline {
+            font-family: 'Forza', Arial, sans-serif;
+            font-weight: 300;
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.6);
+            letter-spacing: 0.5px;
+            margin-bottom: 38px;
+        }
+
+        /* Links */
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .link-card {
+            position: relative;
+            display: block;
+            text-align: left;
+            text-decoration: none;
+            color: #ffffff;
+            background: #161616;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            overflow: hidden;
+            transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+        }
+
+        .link-card::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            z-index: 2;
+            background: linear-gradient(180deg, var(--red), var(--red-soft));
+            transform: scaleY(0);
+            transform-origin: top;
+            transition: transform 0.25s ease;
+        }
+
+        .link-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(255, 255, 255, 0.18);
+            background: #1d1d1d;
+        }
+
+        .link-card:hover::before { transform: scaleY(1); }
+
+        /* Photo area — drop your aircraft image here */
+        .link-photo {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #0e0e0e;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .link-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.45s ease;
+            backface-visibility: hidden;
+        }
+
+        .link-card:hover .link-photo img:not(.link-logo) { transform: scale(1.05); }
+
+        /* Dark scrim at the bottom so the logo stays legible over any photo */
+        .link-photo::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0) 38%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Aircraft logo, bottom-left of the photo */
+        .link-photo img.link-logo {
+            position: absolute;
+            left: 18px;
+            bottom: 14px;
+            width: auto;
+            height: 24px;
+            object-fit: contain;
+            z-index: 2;
+            transition: none;
+        }
+
+        .photo-ph {
+            font-family: 'Forza', Arial, sans-serif;
+            font-weight: 500;
+            font-size: 12px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.35);
+            line-height: 1.6;
+        }
+
+        .photo-ph small {
+            display: block;
+            font-weight: 300;
+            font-size: 11px;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.25);
+        }
+
+        /* Text row under the photo */
+        .link-content {
+            position: relative;
+            z-index: 1;
+            margin-top: -1px; /* overlap the photo by 1px to hide any sub-pixel seam on hover */
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            padding: 21px 24px 20px;
+            background-color: inherit; /* tracks the card bg in both normal & hover states */
+        }
+
+        .link-body { flex: 1; min-width: 0; }
+
+        .link-name {
+            display: block;
+            font-family: 'Knockout', 'Arial Black', sans-serif;
+            font-weight: 500;
+            font-size: 26px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            line-height: 1;
+            margin-bottom: 7px;
+        }
+
+        .link-desc {
+            display: block;
+            font-family: 'Forza', Arial, sans-serif;
+            font-weight: 300;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.55);
+            line-height: 1.35;
+        }
+
+        .link-url {
+            display: block;
+            font-weight: 500;
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--red-soft);
+            margin-top: 8px;
+        }
+
+        .link-arrow {
+            flex-shrink: 0;
+            color: rgba(255, 255, 255, 0.3);
+            transition: transform 0.25s ease, color 0.25s ease;
+        }
+
+        .link-card:hover .link-arrow {
+            transform: translateX(4px);
+            color: #ffffff;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 36px;
+            font-family: 'Forza', Arial, sans-serif;
+            font-weight: 300;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.3);
+            letter-spacing: 0.5px;
+        }
+
+        .footer a {
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer a:hover { color: #ffffff; }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .brand { font-size: 46px; letter-spacing: 4px; }
+            .link-card { padding: 18px 18px; gap: 14px; }
+            .link-icon { width: 46px; height: 46px; }
+            .link-name { font-size: 22px; }
+        }
     </style>
 </head>
 <body>
-    <div class='container'>
-        <h1>Daher - Mini Linktree</h1>
-        <p>Retrouvez ici toutes les mini-pages utiles</p>
 
-        <a class='link' href='page1.html'>Page 1</a>
-        <a class='link' href='page2.html'>Page 2</a>
-        <a class='link' href='page3.html'>Page 3</a>
-    </div>
+    <main class="wrap">
+        <!-- Brand header -->
+        <img class="logo" src="img/Daher%20logo.png" alt="Daher">
+        <div class="divider"></div>
+        <p class="tagline">Choose your way to fly</p>
+
+        <!-- Links -->
+        <nav class="links">
+            <!-- TBM -->
+            <a class="link-card" href="https://www.tbm.aero" target="_blank" rel="noopener">
+                <span class="link-photo">
+                    <img src="img/TBM%20980.webp" alt="Daher TBM 980">
+                    <img class="link-logo" src="img/TBM%20Logo.svg" alt="TBM">
+                </span>
+                <span class="link-content">
+                    <span class="link-body">
+                        <span class="link-desc">The very fast, single-engine turboprop. Speed, range and comfort for business travel.</span>
+                        <span class="link-url">tbm.aero</span>
+                    </span>
+                    <span class="link-arrow" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M13 6l6 6-6 6"/>
+                        </svg>
+                    </span>
+                </span>
+            </a>
+
+            <!-- Kodiak -->
+            <a class="link-card" href="https://kodiak.aero" target="_blank" rel="noopener">
+                <span class="link-photo">
+                    <img src="img/Kodiak%20Family.webp" alt="Daher Kodiak">
+                    <img class="link-logo" src="img/Kodiak%20Logo.svg" alt="Kodiak">
+                </span>
+                <span class="link-content">
+                    <span class="link-body">
+                        <span class="link-desc">The rugged, go-anywhere utility aircraft. Built for short, unimproved airstrips.</span>
+                        <span class="link-url">kodiak.aero</span>
+                    </span>
+                    <span class="link-arrow" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M13 6l6 6-6 6"/>
+                        </svg>
+                    </span>
+                </span>
+            </a>
+        </nav>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2026 Daher &mdash; <a href="https://www.daher.com" target="_blank" rel="noopener">daher.com</a></p>
+        </footer>
+    </main>
+
 </body>
 </html>
